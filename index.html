@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IATSE Local 347 — Columbia, SC</title>
+<style>
+  :root{
+    --black:#04070d;
+    --main:#003264;          /* rgb(0,50,100) */
+    --main-dk:#021b33;
+    --main-lt:#0a4d8c;
+    --white:#eef3fa;
+    --muted:#8ea3c0;
+    --steel:rgba(255,255,255,.14);
+    --mono:"Courier New",Courier,monospace;
+    --hdr:72px;                    /* header height */
+    --bh:calc(100vw * 315 / 851);  /* banner display height at full device width */
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:"Helvetica Neue",Arial,sans-serif;background:var(--black);color:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-weight:800;letter-spacing:.02em;line-height:1.1}
+  a{color:inherit;text-decoration:none}
+  .container{width:100%;max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* stamped part-number tag */
+  .eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.18em;font-size:.84rem;color:var(--muted);margin-bottom:16px}
+  .eyebrow .no{border:1px solid var(--steel);padding:3px 9px;color:#fff;letter-spacing:.1em;background:rgba(255,255,255,.03)}
+
+  /* header */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--black);border-bottom:1px solid var(--steel)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.04em;font-size:.92rem}
+  .brand img{width:40px;height:40px;border-radius:50%;background:#fff;object-fit:cover;padding:2px}
+  .brand small{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.2em;color:var(--muted);font-weight:600}
+  .nav-links{display:flex;gap:30px;list-style:none}
+  .nav-links a{font-family:var(--mono);font-size:.86rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);transition:color .2s;position:relative;padding:4px 0}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-2px;height:1px;width:0;background:#fff;transition:width .25s}
+  .nav-links a:hover{color:#fff}.nav-links a:hover::after{width:100%}
+  .menu-btn{display:none;background:none;border:0;color:#fff;font-size:1.5rem;cursor:pointer}
+
+  /* hero — banner fitted to full device width, fixed so the page scrolls over it */
+  .hero-bg{position:fixed;top:var(--hdr);left:0;width:100%;z-index:-1;background:var(--black);pointer-events:none}
+  .hero-bg img{display:block;width:100%;height:auto}
+  /* transparent spacer reserves the banner's height; everything below scrolls over it */
+  .hero-spacer{height:calc(var(--hdr) + var(--bh))}
+  .page{position:relative;z-index:1;background:var(--black)}
+  /* long, soft fade lives on the page's top edge, so it scrolls up with the
+     content and sweeps over the fixed banner (no hard boundary line) */
+  .page::before{content:"";position:absolute;left:0;right:0;top:calc(var(--bh) * -.6);height:calc(var(--bh) * .6);
+    background:linear-gradient(180deg,transparent 0,transparent 32%,rgba(4,7,13,.55) 72%,var(--black) 100%);pointer-events:none}
+
+  section{padding:92px 0;position:relative}
+  .band{background:linear-gradient(160deg,var(--main-dk),var(--main))}
+  .section-head{max-width:620px;margin-bottom:40px}
+  .section-head h2{font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:14px}
+  .section-head p{color:var(--muted)}
+
+  /* history */
+  .about{display:grid;grid-template-columns:1.15fr .85fr;gap:52px;align-items:center}
+  .about p{color:var(--muted);margin-bottom:16px}
+  .trades{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:2px 28px;margin-top:20px;font-family:var(--mono)}
+  .trades li{display:flex;align-items:center;gap:10px;padding:7px 2px;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--steel)}
+  .trades li::before{content:"—";color:var(--main-lt);flex:none}
+  .framed{border:1px solid var(--steel);background:#000 center/cover no-repeat;position:relative}
+  .framed::after{content:attr(data-tag);position:absolute;top:14px;left:14px;font-family:var(--mono);font-size:.74rem;letter-spacing:.22em;color:#fff;background:rgba(4,7,13,.75);padding:5px 9px;border:1px solid var(--steel)}
+  .about-img{aspect-ratio:4/5}
+
+  /* venues */
+  .venues-band{position:relative;background:linear-gradient(rgba(4,7,13,.86),rgba(4,7,13,.9)),url("images/pexels-976862.jpg") center/cover fixed;border-top:1px solid var(--steel);border-bottom:1px solid var(--steel)}
+  .venues{display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
+  .venue{aspect-ratio:16/11;border:1px solid var(--steel);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
+  .venue .bg{position:absolute;inset:0;background:#000 center/cover no-repeat;filter:grayscale(.35) brightness(.6);transition:transform .5s,filter .3s}
+  .venue:hover .bg{transform:scale(1.06);filter:grayscale(0) brightness(.75)}
+  .venue::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(4,7,13,.9))}
+  .venue .vnum{position:relative;font-family:var(--mono);font-size:.78rem;letter-spacing:.22em;color:var(--muted)}
+  .venue h3{position:relative;font-size:1.25rem;margin-top:4px}
+
+  /* resources */
+  .res-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:52px;align-items:center}
+  .res-img{aspect-ratio:4/3}
+  .res-list{list-style:none;border-top:1px solid var(--steel)}
+  .res-list a{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 4px;border-bottom:1px solid var(--steel);transition:padding .2s,background .2s}
+  .res-list a:hover{padding-left:16px;background:rgba(255,255,255,.03)}
+  .res-list .rname{font-size:1.2rem;font-weight:700}
+  .res-list .rmeta{font-family:var(--mono);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .res-list .arrow{font-family:var(--mono);color:var(--muted)}
+
+  /* officers */
+  .officers{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .officer{text-align:center;padding:30px 22px;border:1px solid var(--steel);
+    background:rgba(255,255,255,.04);box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+  .officer h3{font-size:1.08rem}
+  .officer p{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px;padding-top:12px;border-top:1px solid var(--steel)}
+
+  /* contact plaque */
+  .contact{display:grid;grid-template-columns:1.1fr .9fr;gap:52px;align-items:center}
+  .plaque{position:relative;padding:44px 40px;border:1px solid var(--steel);
+    background:linear-gradient(160deg,#0a4d8c,#003264 55%,#021b33);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 20px 50px rgba(0,0,0,.4)}
+  .plaque .stamp{font-family:var(--mono);font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;color:#cfe0f7;margin-bottom:14px}
+  .plaque h3{font-size:1.6rem;margin-bottom:14px}
+  .plaque p{color:#cfe0f7;margin-bottom:26px}
+  .plaque .row{display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--steel);font-family:var(--mono);font-size:.92rem}
+  .plaque .row .k{color:#9fb6d8;min-width:88px;text-transform:uppercase;letter-spacing:.1em;font-size:.78rem}
+  .contact-img{aspect-ratio:3/4}
+
+  footer{background:var(--black);border-top:1px solid var(--steel);padding:44px 0}
+  .foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+  .foot .brand small{color:var(--muted)}
+  .foot p{font-family:var(--mono);font-size:.8rem;color:var(--muted);letter-spacing:.06em}
+
+  @media(max-width:860px){
+    .nav-links{position:fixed;top:72px;left:0;right:0;flex-direction:column;gap:0;background:rgba(4,7,13,.98);border-bottom:1px solid var(--steel);transform:translateY(-140%);transition:transform .3s;padding:8px 0}
+    .nav-links.open{transform:translateY(0)}
+    .nav-links a{display:block;padding:15px 24px;border-bottom:1px solid var(--steel)}
+    .menu-btn{display:block}
+    .venues,.officers{grid-template-columns:1fr 1fr}
+    /* keep banded background fitted, not zoomed/jumpy */
+    .venues-band{background-attachment:scroll;background-size:cover}
+
+    /* mobile: don't stack image + copy (too much scroll) — overlay the info
+       card on top of the image so both share one screen */
+    .about,.contact,.res-wrap{grid-template-columns:1fr;grid-template-areas:"stack";gap:0;align-items:stretch}
+    .about>*,.contact>*,.res-wrap>*{grid-area:stack;min-width:0}
+    .about .framed,.contact .framed,.res-wrap .framed{aspect-ratio:auto;filter:brightness(.45)}
+    .about>:not(.framed),.res-wrap>:not(.framed),.contact>:not(.framed){
+      position:relative;z-index:2;padding:34px 22px;
+      background:linear-gradient(160deg,rgba(4,7,13,.5),rgba(4,7,13,.78))}
+  }
+  @media(max-width:520px){.venues,.officers{grid-template-columns:1fr 1fr;gap:20px}}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="container nav">
+    <a href="#home" class="brand"><img src="images/347lg.jpg" alt="IATSE Local 347 emblem"><span>IATSE LOCAL 347<small>Columbia, SC</small></span></a>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#history">History</a></li>
+      <li><a href="#venues">Venues</a></li>
+      <li><a href="#resources">Resources</a></li>
+      <li><a href="#officers">Officers</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- HERO (fixed backdrop + spacer) -->
+<div class="hero-bg"><img src="images/347banner.png" alt="IATSE Local 347 banner"></div>
+<section class="hero-spacer" id="home"></section>
+
+<div class="page">
+
+<!-- HISTORY -->
+<section id="history">
+  <div class="container about">
+    <div>
+      <div class="eyebrow"><span class="no">History</span></div>
+      <h2>100 years strong, and still going.</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+         incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+      <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+         fugiat nulla pariatur.</p>
+      <ul class="trades">
+        <li>Carpenters</li><li>Riggers</li><li>Electricians</li>
+        <li>Audio</li><li>Wardrobe</li><li>Grips</li>
+      </ul>
+    </div>
+    <div class="framed about-img" data-tag="EST. 1914" style="background-image:url('images/pexels-32145288.jpg')"></div>
+  </div>
+</section>
+
+
+<!-- VENUES -->
+<section id="venues" class="venues-band">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="no">Our Venues</span></div>
+      <h2>Where we work.</h2>
+      <p>Lorem ipsum dolor sit amet — the stages, arenas, and studios our members bring to life.</p>
+    </div>
+    <div class="venues">
+      <div class="venue"><div class="bg" style="background-image:url('images/cases.png')"></div><span class="vnum">VN.01</span><h3>Venue 1</h3></div>
+      <div class="venue"><div class="bg" style="background-image:url('images/pars.png')"></div><span class="vnum">VN.02</span><h3>Venue 2</h3></div>
+      <div class="venue"><div class="bg" style="background-image:url('images/wall.png')"></div><span class="vnum">VN.03</span><h3>Venue 3</h3></div>
+      <div class="venue"><div class="bg" style="background-image:url('images/truss.png')"></div><span class="vnum">VN.04</span><h3>Venue 4</h3></div>
+      <div class="venue"><div class="bg" style="background-image:url('images/chainz.png')"></div><span class="vnum">VN.05</span><h3>Venue 5</h3></div>
+      <div class="venue"><div class="bg" style="background-image:url('images/pexels-3379164-27471607.jpg')"></div><span class="vnum">VN.06</span><h3>Venue 6</h3></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- RESOURCES -->
+<section id="resources">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="no">Resources</span></div>
+      <h2>Members &amp; industry links.</h2>
+    </div>
+    <div class="res-wrap">
+      <div class="framed res-img" data-tag="REF" style="background-image:url('images/pexels-2985952-34594386.jpg')"></div>
+      <ul class="res-list">
+        <li><a href="#"><span class="rname">Resource Link 1</span><span class="rmeta">Lorem ipsum</span><span class="arrow">↗</span></a></li>
+        <li><a href="#"><span class="rname">Resource Link 2</span><span class="rmeta">Dolor sit amet</span><span class="arrow">↗</span></a></li>
+        <li><a href="#"><span class="rname">Resource Link 3</span><span class="rmeta">Consectetur</span><span class="arrow">↗</span></a></li>
+        <li><a href="#"><span class="rname">Resource Link 4</span><span class="rmeta">Adipiscing elit</span><span class="arrow">↗</span></a></li>
+        <li><a href="#"><span class="rname">Resource Link 5</span><span class="rmeta">Tempor incididunt</span><span class="arrow">↗</span></a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+<!-- OFFICERS -->
+<section id="officers" class="band">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow"><span class="no">Leadership</span></div>
+      <h2>Executive Officers.</h2>
+    </div>
+    <div class="officers">
+      <div class="officer"><h3>Lorem Ipsum</h3><p>President</p></div>
+      <div class="officer"><h3>Dolor Amet</h3><p>Vice President</p></div>
+      <div class="officer"><h3>Sit Consectetur</h3><p>Business Agent</p></div>
+      <div class="officer"><h3>Adipiscing Elit</h3><p>Sec.-Treasurer</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container contact">
+    <div>
+      <div class="eyebrow"><span class="no">Contact</span></div>
+      <div class="plaque">
+        <div class="stamp">IATSE Local 347 — Office</div>
+        <h3>For business inquiries</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. For dispatch, staffing,
+           and general inquiries, contact the Local office during business hours.</p>
+        <div class="row"><span class="k">Email</span><span>office@iatse347-lorem.org</span></div>
+        <div class="row"><span class="k">Phone</span><span>(000) 000-0000</span></div>
+        <div class="row"><span class="k">Office</span><span>123 Lorem Ipsum Ave, Columbia, SC 00000</span></div>
+      </div>
+    </div>
+    <div class="framed contact-img" data-tag="LOC. 347" style="background-image:url('images/stage.png')"></div>
+  </div>
+</section>
+
+</div><!-- /.page -->
+
+<footer>
+  <div class="container foot">
+    <a href="#home" class="brand"><img src="images/347lg.jpg" alt="IATSE Local 347 emblem"><span>IATSE LOCAL 347<small>1914 — 100 Years Strong</small></span></a>
+    <p>© <span id="year"></span> IATSE Local 347 · Columbia, SC · Placeholder site</p>
+  </div>
+</footer>
+
+<script>
+  const header=document.getElementById('header');
+  const navLinks=document.getElementById('navLinks');
+  document.getElementById('menuBtn').onclick=()=>navLinks.classList.toggle('open');
+  navLinks.querySelectorAll('a').forEach(a=>a.onclick=()=>navLinks.classList.remove('open'));
+  document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
